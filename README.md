@@ -79,11 +79,19 @@ I created **GitInsight-MCP** to:
 ## ✨ Features
 
 ### 🔧 Core Functionality
-- ✅ **6 Powerful MCP Tools** - Query repositories, commits, stats, and activity
+- ✅ **8 Powerful MCP Tools** - From basic queries to advanced portfolio generation
+- ✅ **3 MCP Resources** - Readable developer profile, resume, and skills data
+- ✅ **3 MCP Prompts** - Pre-configured for recruiters and technical assessment
 - ✅ **Intelligent Caching** - Reduces GitHub API calls and respects rate limits
 - ✅ **Rate Limit Protection** - Automatic handling of GitHub API constraints
 - ✅ **Error Resilience** - Comprehensive error handling with helpful messages
 - ✅ **TypeScript Safety** - Full type coverage for reliability
+
+### 🎯 Recruiter-Focused Features
+- 📊 **Skills Matrix** - Automated technical skills assessment with proficiency levels
+- 📄 **Portfolio Summary** - Professional candidate evaluation ready for HR
+- 📝 **Auto-Generated Resume** - Markdown CV from GitHub data
+- 🎤 **Recruiter Prompts** - Pre-built evaluation templates for hiring managers
 
 ### 📊 Data Insights
 - 📦 Repository metadata (stars, forks, languages, topics)
@@ -91,6 +99,7 @@ I created **GitInsight-MCP** to:
 - 📈 Aggregate statistics and analytics
 - 🔍 Advanced filtering by technology, topic, or stars
 - 📅 Contribution patterns and streaks
+- 💼 Comprehensive skills categorization
 
 ### 🎨 Developer Experience
 - 🚀 Easy setup with clear documentation
@@ -348,35 +357,126 @@ Analyze contribution activity and patterns.
 
 ---
 
+### 7️⃣ \`get_skills_matrix\` 🎯 **FOR RECRUITERS**
+
+Generate a comprehensive technical skills assessment matrix.
+
+**Parameters:**
+- \`use_cache\` (boolean): Use cached data
+
+**Returns:**
+- Developer profile summary
+- Categorized technical skills (Languages, DevOps, Cloud)
+- Proficiency levels (Expert/Advanced/Intermediate/Beginner)
+- Domain expertise breakdown (DevOps, Web Dev, AI/ML, etc.)
+- Top languages with percentages
+- Project counts per skill
+
+**Perfect for:** HR screening, technical assessment, candidate evaluation
+
+---
+
+### 8️⃣ \`generate_portfolio_summary\` 📄 **FOR RECRUITERS**
+
+Create a recruiter-friendly professional portfolio summary.
+
+**Parameters:**
+- \`use_cache\` (boolean): Use cached data
+
+**Returns:**
+- Candidate profile (name, title, contact, location)
+- Professional summary paragraph
+- Key achievements list
+- Featured projects with highlights and technologies
+- Technical proficiency breakdown
+- GitHub metrics (repos, stars, contributions, streak)
+- Availability status
+
+**Perfect for:** Initial screening, candidate presentation, hiring decisions
+
+---
+
+## 📚 MCP Resources
+
+Resources are readable data endpoints that AI assistants can access:
+
+### Resource: \`portfolio://profile\`
+Developer profile with contact information and specializations (JSON)
+
+### Resource: \`portfolio://resume\`
+Auto-generated professional resume from GitHub data (Markdown)
+
+### Resource: \`portfolio://skills\`
+Complete skills matrix with proficiency assessment (JSON)
+
+**Usage Example:**
+Ask Claude: "Read my portfolio profile" or "Show me my resume"
+
+---
+
+## 🎤 MCP Prompts
+
+Pre-configured prompt templates for common scenarios:
+
+### Prompt: \`recruiter_evaluation\`
+🎯 Comprehensive candidate evaluation for HR and recruiters  
+Combines portfolio summary, skills matrix, stats, and activity into a hiring recommendation
+
+### Prompt: \`technical_assessment\`
+🔧 Deep technical analysis for engineering managers  
+Analyzes code quality, tech stack depth, and suggests interview questions
+
+### Prompt: \`portfolio_showcase\`
+💼 Impressive portfolio presentation  
+Creates a compelling narrative highlighting achievements and value proposition
+
+**Usage Example:**
+In Claude Desktop or MCP Inspector, select a prompt to execute the evaluation automatically
+
+---
+
 ## 💬 Example Queries
 
 Try asking Claude these questions:
 
-**Portfolio Overview:**
+**For Developers:**
 > "What are my most starred repositories?"
 
 > "Show me statistics about my GitHub profile"
 
 > "What programming languages do I use most?"
 
-**Project Discovery:**
+**For Project Discovery:**
 > "Find all my DevOps projects"
 
 > "Show me my Python projects with the most stars"
 
 > "What are my recent AI/ML repositories?"
 
-**Activity Tracking:**
+**For Recruiters & HR:** 🎯
+> "Generate a portfolio summary for this candidate"
+
+> "Show me the skills matrix with proficiency levels"
+
+> "Read the portfolio resume"
+
+> "Use the recruiter_evaluation prompt"
+
+> "What are this developer's key strengths?"
+
+**For Activity Tracking:**
 > "What have I been working on recently?"
 
 > "Show my commit activity for the last month"
 
 > "What's my contribution streak?"
 
-**Detailed Analysis:**
+**For Detailed Analysis:**
 > "Give me details about my DEVOPS-Project repository"
 
 > "Analyze my AWS-App project and tell me about it"
+
+> "Generate a technical assessment for hiring managers"
 
 ---
 

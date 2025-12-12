@@ -50,12 +50,12 @@ const server = new Server(
   {
     name: 'gitinsight-mcp',
     version: '1.0.0',
-  },  resources: {},
-      prompts: {},
-    
+  },
   {
     capabilities: {
       tools: {},
+      resources: {},
+      prompts: {},
     },
   }
 );
