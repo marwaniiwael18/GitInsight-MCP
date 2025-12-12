@@ -1,7 +1,6 @@
 # 🚀 GitInsight-MCP
 
 
-https://github.com/user-attachments/assets/a4615a28-de0f-4352-aa61-84993a4c61a9
 
 
 **A Model Context Protocol (MCP) Server for GitHub Profile Integration**
