@@ -19,6 +19,7 @@ import {
   ListToolsRequestSchema,
   ListResourcesRequestSchema,
   ReadResourceRequestSchema,
+  ListResourceTemplatesRequestSchema,
   ListPromptsRequestSchema,
   GetPromptRequestSchema,
   Tool,
@@ -287,7 +288,17 @@ server.setRequestHandler(ListResourcesRequestSchema, async () => {
         description: 'Comprehensive technical skills assessment with proficiency levels'
       }
     ]
+  }
+
+/**
+ * Handler for resource templates (optional, prevents errors in MCP Inspector)
+ */
+server.setRequestHandler(ListResourceTemplatesRequestSchema, async () => {
+  console.error('[MCP] Listing resource templates');
+  return {
+    resourceTemplates: []
   };
+});;
 });
 
 /**
