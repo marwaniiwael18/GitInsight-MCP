@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "gitinsight-mcp": {
+      "command": "node",
+      "args": [
+        "/Users/macbook/Desktop/GitInsight-MCP/dist/index.js"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "your_github_personal_access_token_here",
+        "GITHUB_USERNAME": "marwaniiwael18"
+      }
+    }
+  }
+}
