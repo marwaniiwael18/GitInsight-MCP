@@ -242,7 +242,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'get_repository_details': {
-        const result = await getRepositoryDetails(args as GetRepositoryDetailsArgs);
+        const result = await getRepositoryDetails((args || {}) as GetRepositoryDetailsArgs);
         return {
           content: [
             {
