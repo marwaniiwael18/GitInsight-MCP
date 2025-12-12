@@ -230,7 +230,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     switch (name) {
       case 'list_repositories': {
-        const result = await listRepositories(args as ListRepositoriesArgs);
+        const result = await listRepositories((args as ListRepositoriesArgs) || {});
         return {
           content: [
             {
@@ -242,7 +242,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'get_repository_details': {
-        const result = await getRepositoryDetails((args || {}) as GetRepositoryDetailsArgs);
+        const result = await getRepositoryDetails(args as unknown as GetRepositoryDetailsArgs);
         return {
           content: [
             {
@@ -254,7 +254,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'get_recent_commits': {
-        const result = await getRecentCommits(args as GetRecentCommitsArgs);
+        const result = await getRecentCommits((args as GetRecentCommitsArgs) || {});
         return {
           content: [
             {
@@ -266,7 +266,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'get_repository_stats': {
-        const result = await getRepositoryStats(args as GetRepositoryStatsArgs);
+        const result = await getRepositoryStats((args as GetRepositoryStatsArgs) || {});
         return {
           content: [
             {
@@ -278,7 +278,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'search_projects_by_tech': {
-        const result = await searchProjectsByTech(args as SearchProjectsByTechArgs);
+        const result = await searchProjectsByTech((args as SearchProjectsByTechArgs) || {});
         return {
           content: [
             {
@@ -290,7 +290,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'get_contribution_activity': {
-        const result = await getContributionActivity(args as GetContributionActivityArgs);
+        const result = await getContributionActivity((args as GetContributionActivityArgs) || {});
         return {
           content: [
             {
