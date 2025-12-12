@@ -17,6 +17,10 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
+  ListResourcesRequestSchema,
+  ReadResourceRequestSchema,
+  ListPromptsRequestSchema,
+  GetPromptRequestSchema,
   Tool,
 } from '@modelcontextprotocol/sdk/types.js';
 
@@ -35,6 +39,8 @@ import {
   SearchProjectsByTechArgs,
   getContributionActivity,
   GetContributionActivityArgs,
+  getSkillsMatrix,
+  generatePortfolioSummary,
 } from './tools/index.js';
 
 /**
@@ -44,7 +50,9 @@ const server = new Server(
   {
     name: 'gitinsight-mcp',
     version: '1.0.0',
-  },
+  },  resources: {},
+      prompts: {},
+    
   {
     capabilities: {
       tools: {},
@@ -209,6 +217,40 @@ const TOOLS: Tool[] = [
       },
     },
   },
+  {
+    name: 'get_skills_matrix',
+    description:
+      '🎯 RECRUITER TOOL: Generates a comprehensive skills matrix analyzing all repositories. ' +
+      'Returns categorized technical skills (Programming Languages, DevOps, Cloud), proficiency levels, ' +
+      'domain expertise (Web Dev, AI/ML, DevOps), and project counts. Perfect for HR screening and technical assessment.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        use_cache: {
+          type: 'boolean',
+          description: 'Whether to use cached data (default: true)',
+          default: true,
+        },
+      },
+    },
+  },
+  {
+    name: 'generate_portfolio_summary',
+    description:
+      '📄 RECRUITER TOOL: Creates a recruiter-friendly portfolio summary with candidate profile, ' +
+      'professional summary, key achievements, featured projects with highlights, technical proficiency breakdown, ' +
+      'and GitHub metrics. Optimized for HR review and candidate evaluation.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        use_cache: {
+          type: 'boolean',
+          description: 'Whether to use cached data (default: true)',
+          default: true,
+        },
+      },
+    },
+  },
 ];
 
 /**
@@ -217,6 +259,259 @@ const TOOLS: Tool[] = [
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   console.error('[MCP] Listing available tools');
   return { tools: TOOLS };
+});
+
+/**
+ * MCP Resources - Provide readable portfolio data
+ */
+server.setRequestHandler(ListResourcesRequestSchema, async () => {
+  console.error('[MCP] Listing available resources');
+  return {
+    resources: [
+      {
+        uri: 'portfolio://profile',
+        mimeType: 'application/json',
+        name: 'Developer Profile',
+        description: 'Complete developer profile with contact info and expertise areas'
+      },
+      {
+        uri: 'portfolio://resume',
+        mimeType: 'text/markdown',
+        name: 'Professional Resume',
+        description: 'Markdown-formatted resume/CV generated from GitHub data'
+      },
+      {
+        uri: 'portfolio://skills',
+        mimeType: 'application/json',
+        name: 'Skills Matrix',
+        description: 'Comprehensive technical skills assessment with proficiency levels'
+      }
+    ]
+  };
+});
+
+/**
+ * Handler for reading resources
+ */
+server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+  const { uri } = request.params;
+  console.error(`[MCP] Reading resource: ${uri}`);
+
+  switch (uri) {
+    case 'portfolio://profile':
+      return {
+        contents: [
+          {
+            uri,
+            mimeType: 'application/json',
+            text: JSON.stringify({
+              name: 'Wael Marwani',
+              title: 'Full Stack Developer | DevOps Engineer | IT Engineer',
+              location: 'Ariana, Tunisia',
+              email: 'wael.marwani@esprit.tn',
+              portfolio: 'https://marwaniwael.engineer',
+              github: 'https://github.com/marwaniiwael18',
+              specializations: [
+                'DevOps & CI/CD',
+                'Full Stack Web Development',
+                'Cloud Infrastructure (AWS)',
+                'Microservices Architecture',
+                'AI Integration & MCP Servers'
+              ],
+              availability: 'Open to opportunities'
+            }, null, 2)
+          }
+        ]
+      };
+
+    case 'portfolio://resume':
+      const stats = await githubClient.getRepositoryStats();
+      const resumeMarkdown = `# Wael Marwani
+**Full Stack Developer | DevOps Engineer | IT Engineer**
+
+📍 Ariana, Tunisia  
+📧 wael.marwani@esprit.tn  
+🌐 https://marwaniwael.engineer  
+💼 https://github.com/marwaniiwael18
+
+## Professional Summary
+Innovative software engineer with ${stats.total_repositories} public repositories and ${stats.total_stars} GitHub stars. Specialized in modern web development, DevOps practices, and AI integration. Proven track record in building scalable applications using ${stats.languages.slice(0, 3).map(l => l.language).join(', ')}.
+
+## Technical Skills
+**Programming Languages:** ${stats.languages.slice(0, 6).map(l => l.language).join(', ')}
+
+**DevOps & Tools:** Docker, Jenkins, CI/CD Pipelines, Git/GitHub
+
+**Cloud & Infrastructure:** AWS, Microservices Architecture
+
+**Specializations:**
+- DevOps & Continuous Integration/Deployment
+- Full Stack Web Development
+- Cloud Infrastructure Management
+- AI Integration & MCP Server Development
+
+## GitHub Metrics
+- 📦 **${stats.total_repositories}** Public Repositories
+- ⭐ **${stats.total_stars}** Total Stars
+- 🍴 **${stats.total_forks}** Total Forks
+- 🔧 **${stats.languages.length}** Programming Languages
+
+## Featured Projects
+${stats.recently_updated.slice(0, 5).map(r => `
+### ${r.name}
+${r.description || 'Software development project'}  
+**Tech:** ${r.language || 'Multiple'} | ⭐ ${r.stars} stars | 🍴 ${r.forks} forks  
+🔗 ${r.url}
+`).join('\n')}
+
+## Education & Contact
+📧 **Email:** wael.marwani@esprit.tn  
+🌐 **Portfolio:** https://marwaniwael.engineer  
+💼 **LinkedIn:** Available upon request  
+🐙 **GitHub:** https://github.com/marwaniiwael18
+
+---
+*Resume generated from GitHub API data*`;
+
+      return {
+        contents: [
+          {
+            uri,
+            mimeType: 'text/markdown',
+            text: resumeMarkdown
+          }
+        ]
+      };
+
+    case 'portfolio://skills':
+      const skillsData = await getSkillsMatrix();
+      return {
+        contents: [
+          {
+            uri,
+            mimeType: 'application/json',
+            text: JSON.stringify(skillsData.data, null, 2)
+          }
+        ]
+      };
+
+    default:
+      throw new Error(`Unknown resource: ${uri}`);
+  }
+});
+
+/**
+ * MCP Prompts - Pre-configured prompts for common use cases
+ */
+server.setRequestHandler(ListPromptsRequestSchema, async () => {
+  console.error('[MCP] Listing available prompts');
+  return {
+    prompts: [
+      {
+        name: 'recruiter_evaluation',
+        description: '🎯 HR Tool: Comprehensive candidate evaluation for recruiters',
+        arguments: []
+      },
+      {
+        name: 'technical_assessment',
+        description: '🔧 Technical deep-dive for engineering managers',
+        arguments: []
+      },
+      {
+        name: 'portfolio_showcase',
+        description: '💼 Generate an impressive portfolio presentation',
+        arguments: []
+      }
+    ]
+  };
+});
+
+/**
+ * Handler for getting prompts
+ */
+server.setRequestHandler(GetPromptRequestSchema, async (request) => {
+  const { name } = request.params;
+  console.error(`[MCP] Getting prompt: ${name}`);
+
+  switch (name) {
+    case 'recruiter_evaluation':
+      return {
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: `Please provide a comprehensive evaluation of Wael Marwani as a software engineering candidate. Include:
+
+1. Use the 'generate_portfolio_summary' tool to get candidate overview
+2. Use the 'get_skills_matrix' tool to assess technical proficiency
+3. Use the 'get_repository_stats' tool for quantitative metrics
+4. Use the 'get_contribution_activity' tool to evaluate engagement
+
+Then provide:
+- Overall technical assessment (1-10 rating)
+- Key strengths for this role
+- Notable projects and achievements
+- Recommended interview focus areas
+- Hiring recommendation (Strong Yes / Yes / Maybe / No)`
+            }
+          }
+        ]
+      };
+
+    case 'technical_assessment':
+      return {
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: `Perform a detailed technical assessment of Wael Marwani's GitHub portfolio:
+
+1. Use 'get_skills_matrix' to analyze technical capabilities
+2. Use 'list_repositories' sorted by stars to find top projects
+3. Use 'search_projects_by_tech' to explore DevOps projects
+4. Use 'get_recent_commits' to check code activity
+
+Provide:
+- Code quality indicators
+- Technology stack depth assessment
+- DevOps/infrastructure expertise level
+- Architectural patterns used
+- Recommended technical interview questions`
+            }
+          }
+        ]
+      };
+
+    case 'portfolio_showcase':
+      return {
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: `Create an impressive portfolio showcase for Wael Marwani:
+
+1. Use 'generate_portfolio_summary' for professional overview
+2. Read the 'portfolio://resume' resource for formatted CV
+3. Use 'get_repository_stats' for impressive metrics
+4. Highlight top 5 projects with descriptions
+
+Format the output as a compelling narrative that would impress potential employers, focusing on:
+- Unique value proposition
+- Quantifiable achievements
+- Technical breadth and depth
+- Recent innovations (MCP server development)
+- Why Wael would be a great hire`
+            }
+          }
+        ]
+      };
+
+    default:
+      throw new Error(`Unknown prompt: ${name}`);
+  }
 });
 
 /**
@@ -301,6 +596,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
 
+      case 'get_skills_matrix': {
+        const result = await getSkillsMatrix((args as { use_cache?: boolean }) || {});
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case 'generate_portfolio_summary': {
+        const result = await generatePortfolioSummary((args as { use_cache?: boolean }) || {});
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
       default:
         throw new Error(`Unknown tool: ${name}`);
     }
@@ -335,6 +654,8 @@ async function main() {
   console.error(`GitHub User: ${config.github_username}`);
   console.error(`Cache TTL: ${config.cache_ttl} seconds`);
   console.error(`Tools Available: ${TOOLS.length}`);
+  console.error(`Resources: 3 (Profile, Resume, Skills)`);
+  console.error(`Prompts: 3 (Recruiter, Technical, Portfolio)`);
   console.error('='.repeat(60));
 
   // Verify GitHub connection
