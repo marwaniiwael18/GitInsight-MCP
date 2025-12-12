@@ -6,13 +6,16 @@
 [![MCP](https://img.shields.io/badge/MCP-1.0.4-green.svg)](https://modelcontextprotocol.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub](https://img.shields.io/badge/GitHub-marwaniiwael18-black.svg)](https://github.com/marwaniiwael18)
+[![Built with Claude](https://img.shields.io/badge/Built%20with-Claude-5A67D8.svg)](https://claude.ai)
 
-> Empower AI assistants like Claude to analyze your GitHub profile, fetch repository insights, and generate portfolio analytics through the Model Context Protocol.
+> A learning project built to explore the Model Context Protocol (MCP) and MCP Inspector tool. This server provides GitHub profile integration and was entirely built in collaboration with Claude AI.
 
 **Author:** Wael Marwani  
 **Portfolio:** [marwaniwael.engineer](https://marwaniwael.engineer)  
 **Email:** wael.marwani@esprit.tn  
-**Location:** Ariana, Tunisia
+**Location:** Ariana, Tunisia  
+
+**🤖 Built with Claude AI** - Every commit co-authored with Claude
 
 ---
 
@@ -47,20 +50,26 @@ The **Model Context Protocol (MCP)** is an open protocol that enables AI assista
 - **Protocol**: Standardized communication format using JSON-RPC
 
 GitInsight-MCP implements an MCP server that exposes your GitHub profile data to AI assistants, allowing them to answer questions about your repositories, analyze your coding patterns, and generate portfolio insights.
+I Built This Project
 
----
+I created **GitInsight-MCP** to:
 
-## 🎯 Why This Project Matters
+🔍 **Explore the MCP Inspector** - Wanted to see how MCP servers work and test them interactively  
+🛠️ **Discover New MCP Tools** - Learn about the Model Context Protocol ecosystem  
+🤖 **Collaborate with Claude AI** - Built entirely using Claude as a coding partner  
+📚 **Learn by Doing** - Hands-on experience with TypeScript, Node.js, and GitHub API  
+🚀 **Create Something Useful** - A practical tool that actually works with my GitHub profile
 
-This project demonstrates:
-
-✅ **AI Integration Expertise** - Understanding of how to build tools for LLMs  
-✅ **Modern Backend Development** - TypeScript, Node.js, REST APIs  
-✅ **DevOps Skills** - GitHub API integration, caching, error handling  
-✅ **Protocol Implementation** - Working knowledge of MCP specification  
-✅ **Portfolio Showcase** - Automated way to present your GitHub work to recruiters
+**This is a learning project** showcasing:
+- **AI-Assisted Development** - Every line of code written with Claude
+- **Modern Backend Stack** - TypeScript, Node.js, MCP SDK
+- **Real API Integration** - GitHub Octokit, caching, error handling
+- **Production Quality** - Full documentation, proper architecture
 
 **Perfect for:**
+- Developers exploring MCP and AI-assisted coding
+- Learning how to build tools that AI assistants can use
+- Understanding the Model Context Protocol specification
 - DevOps Engineers wanting to showcase AI integration skills
 - Full Stack Developers building MCP servers
 - Anyone creating an intelligent portfolio assistant
@@ -517,26 +526,37 @@ MIT License - see [LICENSE](LICENSE) file for details
 **Wael Marwani**  
 📧 Email: wael.marwani@esprit.tn  
 🌐 Portfolio: [marwaniwael.engineer](https://marwaniwael.engineer)  
-💼 GitHub: [@marwaniiwael18](https://github.com/marwaniiwael18)  
-📍 Location: Ariana, Tunisia  
-👔 Role: Full Stack Developer | DevOps | IT Engineer
+💼 GitWhat I Learned
+
+Building this project with Claude taught me:
+
+- **MCP Protocol Implementation** - How to build servers for AI assistants
+- **MCP Inspector Usage** - Testing and debugging MCP tools interactively
+- **AI-Assisted Development** - Collaborating with Claude to write production code
+- **RESTful API Integration** - GitHub API via Octokit
+- **Caching Strategies** - Performance optimization techniques
+- **Error Handling** - Building resilient systems
+- **TypeScript Best Practices** - Type safety and modern JavaScript
+- **Git Collaboration** - Using co-authored commits with AI
+
+## 🤝 Development Process
+
+**This entire project was built using Claude AI:**
+
+✅ All code written through Claude conversations  
+✅ Every commit co-authored: `Co-authored-by: claude <noreply@anthropic.com>`  
+✅ Architecture designed collaboratively  
+✅ Documentation generated with AI assistance  
+✅ Debugging and testing done together  
+
+**Why this matters:** Demonstrates how AI can be a powerful coding partner for learning and building real projects.
 
 ---
 
-## 🎓 Educational Value
+**Built with ❤️ and 🤖 by Wael Marwani & Claude**  
+*A collaboration between human curiosity and AI assistance*
 
-This project demonstrates:
-
-- **MCP Protocol Implementation** - Building servers for AI assistants
-- **RESTful API Integration** - GitHub API via Octokit
-- **Caching Strategies** - Performance optimization
-- **Error Handling** - Resilient systems design
-- **TypeScript Best Practices** - Type safety and modern JavaScript
-- **DevOps Practices** - Environment config, deployment patterns
-- **Documentation** - Clear, comprehensive developer documentation
-
-Perfect for portfolios, interviews, and demonstrating AI integration expertise!
-
+⭐ Star this repo if you're interested in MCP or AI-assisted development
 ---
 
 **Built with ❤️ by Wael Marwani**  
