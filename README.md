@@ -3,6 +3,10 @@
 
 
 
+https://github.com/user-attachments/assets/22716a0c-2dc6-4d00-a761-1fee7341afca
+
+
+
 **A Model Context Protocol (MCP) Server for GitHub Profile Integration**
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
